@@ -23,11 +23,11 @@ Background: movies have been added to database
   
 Scenario: restrict to movies with 'PG' or 'R' ratings
   # enter step(s) to check the 'PG' and 'R' checkboxes
-  When I check "ratings_PG"
-  And I check "ratings_R"
-  And I uncheck "ratings_G"
-  And I uncheck "ratings_PG-13"
-  And I uncheck "ratings_NC-17"
+  When I check "PG"
+  And I check "R"
+  And I uncheck "G"
+  And I uncheck "PG-13"
+  And I uncheck "NC-17"
   # enter step(s) to uncheck all other checkboxes
   # enter step to "submit" the search form on the homepage
   And I press "Refresh"
@@ -49,9 +49,15 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
 
 Scenario: no ratings selected
   # see assignment
-  When I check the following ratings: G,PG-13, R
+  When I uncheck the following ratings: G,PG,PG-13,NC-17, R
   And I press "Refresh"
   Then I am on the RottenPotatoes home page
-  And I should not see "The Incredibles"
+  #And I should see none of the movies
+
+
 Scenario: all ratings selected
   # see assignment
+  When I check the following ratings: G,PG, PG-13,R, NC-17
+  And I press "Refresh"
+  Then I am on the RottenPotatoes home page
+  And I should see all of the movies
